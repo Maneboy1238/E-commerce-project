@@ -9,7 +9,7 @@ export function HomePage() {
           <div className="product-container">
             <div className="product-image-container">
               <img className="product-image"
-                src="../../assets/imagesproducts/athletic-cotton-socks-6-pairs.jpg" />
+                src="../../src/assets/images/products/athletic-cotton-socks-6-pairs.jpg" />
             </div>
 
             <div className="product-name limit-text-to-2-lines">
@@ -18,7 +18,7 @@ export function HomePage() {
 
             <div className="product-rating-container">
               <img className="product-rating-stars"
-                src="../../assets/imagesratings/rating-45.png" />
+                src="../../src/assets/images/ratings/rating-45.png" />
               <div className="product-rating-count link-primary">
                 87
               </div>
@@ -46,7 +46,7 @@ export function HomePage() {
             <div className="product-spacer"></div>
 
             <div className="added-to-cart">
-              <img src="../../assets/imagesicons/checkmark.png" />
+              <img src="../../src/assets/images/icons/checkmark.png" />
               Added
             </div>
 
@@ -58,7 +58,7 @@ export function HomePage() {
           <div className="product-container">
             <div className="product-image-container">
               <img className="product-image"
-                src="../../assets/imagesproducts/intermediate-composite-basketball.jpg" />
+                src="../../src/assets/images/products/intermediate-composite-basketball.jpg" />
             </div>
 
             <div className="product-name limit-text-to-2-lines">
@@ -67,7 +67,7 @@ export function HomePage() {
 
             <div className="product-rating-container">
               <img className="product-rating-stars"
-                src="../../assets/imagesratings/rating-40.png" />
+                src="../../src/assets/images/ratings/rating-40.png" />
               <div className="product-rating-count link-primary">
                 127
               </div>
@@ -95,7 +95,7 @@ export function HomePage() {
             <div className="product-spacer"></div>
 
             <div className="added-to-cart">
-              <img src="../../assets/imagesicons/checkmark.png" />
+              <img src="../../src/assets/images/icons/checkmark.png" />
               Added
             </div>
 
@@ -107,7 +107,7 @@ export function HomePage() {
           <div className="product-container">
             <div className="product-image-container">
               <img className="product-image"
-                src="../../assets/imagesproducts/adults-plain-cotton-tshirt-2-pack-teal.jpg" />
+                src="../../src/assets/images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg" />
             </div>
 
             <div className="product-name limit-text-to-2-lines">
@@ -116,7 +116,7 @@ export function HomePage() {
 
             <div className="product-rating-container">
               <img className="product-rating-stars"
-                src="../../assets/imagesratings/rating-45.png" />
+                src="../../src/assets/images/ratings/rating-45.png" />
               <div className="product-rating-count link-primary">
                 56
               </div>
@@ -144,7 +144,7 @@ export function HomePage() {
             <div className="product-spacer"></div>
 
             <div className="added-to-cart">
-              <img src="../../assets/imagesicons/checkmark.png" />
+              <img src="../../src/assets/images/icons/checkmark.png" />
               Added
             </div>
 
