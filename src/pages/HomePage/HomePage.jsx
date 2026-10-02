@@ -3,6 +3,10 @@ import "./HomePage.css";
 export function HomePage() {
   return (
     <>
+      <title>Ecommerce Project</title>
+
+
+
       <Header />
       <div className="home-page">
         <div className="products-grid">
