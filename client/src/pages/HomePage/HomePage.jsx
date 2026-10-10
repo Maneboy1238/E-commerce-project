@@ -1,14 +1,16 @@
+import axios from "axios"
+import { useEffect, useState } from "react";
 import { Header } from "../../components/Header/Header";
 import "./HomePage.css";
 
 export function HomePage() {
-
-  fetch("http://localhost:3000/api/products")
-    .then((response) => {
-      return response.json()
-    }).then((data) => {
-      console.log(data)
-    })
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products")
+      .then((response) => {
+        setProducts(response.data);
+      })
+  }, [])
 
   return (
 
@@ -22,7 +24,7 @@ export function HomePage() {
       <Header />
       <div className="home-page">
         <div className="products-grid">
-          {/*products.map(product => (
+          {products.map(product => (
 
             <div key={product.id} className="product-container">
               <div className="product-image-container">
@@ -72,7 +74,7 @@ export function HomePage() {
                 Add to Cart
               </button>
             </div>
-          ))*/}
+          ))}
 
 
         </div>
