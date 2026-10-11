@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { resolve } from "path"
+import { join } from "path"
 import { products } from "./utils/products.js";
 import { cart } from "./utils/cart.js";
 
@@ -9,7 +9,7 @@ app.use(cors({
   origin: "http://localhost:5173"
 }))
 
-app.use(express.static(resolve('/public')))
+app.use(express.static(join(import.meta.dirname, '../public')))
 
 app.get('/api/products', (req, res) => {
   res.json(products)
