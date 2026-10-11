@@ -34,7 +34,7 @@ export function HomePage() {
             <div key={product.id} className="product-container">
               <div className="product-image-container">
                 <img className="product-image"
-                  src={`../../src/assets/${product.image}`} />
+                  src={product.image} />
               </div>
 
               <div className="product-name limit-text-to-2-lines">

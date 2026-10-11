@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { resolve } from "path"
 import { products } from "./utils/products.js";
 import { cart } from "./utils/cart.js";
 
@@ -7,6 +8,8 @@ const app = express()
 app.use(cors({
   origin: "http://localhost:5173"
 }))
+
+app.use(express.static(resolve('/public')))
 
 app.get('/api/products', (req, res) => {
   res.json(products)
