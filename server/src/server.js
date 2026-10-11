@@ -16,6 +16,23 @@ app.get('/api/products', (req, res) => {
 })
 
 app.get('/api/cart-items', (req, res) => {
+  const expandProduct = req.query['expand-product']
+  console.log(expandProduct)
+  if (expandProduct === '') {
+    const cartWithProduct = cart.map(cartItems => {
+      const product = products.find(product => product.id === cartItems.productId)
+      return {
+        ...cartItems,
+        product: {
+          name: product.name,
+          image: product.image,
+          priceCents: product.priceCents,
+          keywords: product.keywords
+        }
+      }
+    })
+    return res.json(cartWithProduct)
+  }
   res.json(cart)
 })
 
