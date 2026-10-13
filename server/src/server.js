@@ -3,6 +3,7 @@ import cors from "cors";
 import { join } from "path"
 import { products } from "./utils/products.js";
 import { cart } from "./utils/cart.js";
+import { deliveryOptions } from "./utils/deliveryOption.js";
 
 const app = express()
 app.use(cors({
@@ -17,7 +18,6 @@ app.get('/api/products', (req, res) => {
 
 app.get('/api/cart-items', (req, res) => {
   const expandProduct = req.query['expand-product']
-  console.log(expandProduct)
   if (expandProduct === '') {
     const cartWithProduct = cart.map(cartItems => {
       const product = products.find(product => product.id === cartItems.productId)
@@ -34,6 +34,25 @@ app.get('/api/cart-items', (req, res) => {
     return res.json(cartWithProduct)
   }
   res.json(cart)
+})
+
+app.get('/api/delivery-options', (req, res) => {
+  const { expand } = req.query
+  if (expand === 'estimatedDeliveryTime') {
+    const deliveryOptionsWithDeliveryTimeMs = deliveryOptions.map(deliveryOption => {
+      const { deliveryDays } = deliveryOption;
+      const date = new Date()
+      date.setDate(date.getDate() + deliveryDays);
+
+      const estimatedDeliveryTImeMs = date.getTime()
+      return {
+        ...deliveryOption,
+        estimatedDeliveryTImeMs
+      }
+    })
+    return res.json(deliveryOptionsWithDeliveryTimeMs)
+  }
+  res.json(deliveryOptions);
 })
 
 app.listen(3000, () => {
