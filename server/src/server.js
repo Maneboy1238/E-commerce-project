@@ -44,10 +44,10 @@ app.get('/api/delivery-options', (req, res) => {
       const date = new Date()
       date.setDate(date.getDate() + deliveryDays);
 
-      const estimatedDeliveryTImeMs = date.getTime()
+      const estimatedDeliveryTimeMs = date.getTime()
       return {
         ...deliveryOption,
-        estimatedDeliveryTImeMs
+        estimatedDeliveryTimeMs
       }
     })
     return res.json(deliveryOptionsWithDeliveryTimeMs)
