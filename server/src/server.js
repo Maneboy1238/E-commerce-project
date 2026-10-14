@@ -55,6 +55,33 @@ app.get('/api/delivery-options', (req, res) => {
   res.json(deliveryOptions);
 })
 
+app.get('/api/payment-summary', (req, res) => {
+  let totalItems = 0;
+  let productCostCents = 0;
+  let shippingCostCents = 0;
+  cart.forEach(cartItem => {
+    totalItems += cartItem.quantity
+    const product = products.find(product => product.id === cartItem.productId)
+    productCostCents += product.priceCents * cartItem.quantity;
+    const deliveryOption = deliveryOptions.find(deliveryOption => deliveryOption.id === cartItem.deliveryOptionId);
+    shippingCostCents += deliveryOption.priceCents
+  });
+  const totalCostBeforeTaxCents = productCostCents + shippingCostCents;
+  const taxCents = totalCostBeforeTaxCents * 0.1;
+  const totalCostCents = totalCostBeforeTaxCents + taxCents;
+
+  const paymentSummary = {
+    totalItems,
+    productCostCents,
+    shippingCostCents,
+    totalCostBeforeTaxCents,
+    taxCents,
+    totalCostCents
+  }
+  console.log(paymentSummary)
+  res.json(paymentSummary)
+})
+
 app.listen(3000, () => {
   console.log('listening on port 3000')
 })
