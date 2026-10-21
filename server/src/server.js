@@ -92,17 +92,24 @@ app.get("/api/orders", (req, res) => {
     productCostCents += calculateProductCostCents(cartItem, productData);
     shippingCostCents += calculateShippingCostCents(deliveryOption)
 
-    return {
+    const produtDetails = {
       productId: cartItem.productId,
       quantity: cartItem.quantity,
       estimatedDeliveryTimeMs,
-      product: {
-        name: productData?.name,
-        image: productData?.image,
-        priceCents: productData?.priceCents,
-        keywords: productData?.keywords
+    }
+
+    if (expand === 'products') {
+      return {
+        ...produtDetails,
+        product: {
+          name: productData?.name,
+          image: productData?.image,
+          keywords: productData?.keywords
+        }
       }
     }
+
+    return produtDetails
   })
   const totalCostBeforeTaxCents = productCostCents + shippingCostCents;
   const taxCents = totalCostBeforeTaxCents * 0.1;
