@@ -83,7 +83,6 @@ export function OrdersPage({ cart }) {
             </div>
 
           ))}
-
         </div>
       </div>
     </>
