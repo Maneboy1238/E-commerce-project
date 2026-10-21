@@ -4,6 +4,8 @@ import { join } from "path"
 import { products } from "./utils/products.js";
 import { cart } from "./utils/cart.js";
 import { deliveryOptions } from "./utils/deliveryOption.js";
+import { getDeliveryDate } from "./utils/date.js";
+import { calculateProductCostCents, calculateShippingCostCents } from "./utils/money.js";
 
 const app = express()
 app.use(cors({
@@ -41,10 +43,7 @@ app.get('/api/delivery-options', (req, res) => {
   if (expand === 'estimatedDeliveryTime') {
     const deliveryOptionsWithDeliveryTimeMs = deliveryOptions.map(deliveryOption => {
       const { deliveryDays } = deliveryOption;
-      const date = new Date()
-      date.setDate(date.getDate() + deliveryDays);
-
-      const estimatedDeliveryTimeMs = date.getTime()
+      const estimatedDeliveryTimeMs = getDeliveryDate(deliveryDays)
       return {
         ...deliveryOption,
         estimatedDeliveryTimeMs
@@ -56,19 +55,20 @@ app.get('/api/delivery-options', (req, res) => {
 })
 
 app.get('/api/payment-summary', (req, res) => {
+  let totalCostCents = 0
   let totalItems = 0;
   let productCostCents = 0;
   let shippingCostCents = 0;
   cart.forEach(cartItem => {
     totalItems += cartItem.quantity
     const product = products.find(product => product.id === cartItem.productId)
-    productCostCents += product.priceCents * cartItem.quantity;
     const deliveryOption = deliveryOptions.find(deliveryOption => deliveryOption.id === cartItem.deliveryOptionId);
-    shippingCostCents += deliveryOption.priceCents
+    productCostCents += calculateProductCostCents(cartItem, product);
+    shippingCostCents += calculateShippingCostCents(deliveryOption)
   });
   const totalCostBeforeTaxCents = productCostCents + shippingCostCents;
   const taxCents = totalCostBeforeTaxCents * 0.1;
-  const totalCostCents = totalCostBeforeTaxCents + taxCents;
+  totalCostCents = totalCostBeforeTaxCents + taxCents;
 
   const paymentSummary = {
     totalItems,
@@ -78,8 +78,44 @@ app.get('/api/payment-summary', (req, res) => {
     taxCents,
     totalCostCents
   }
-  console.log(paymentSummary)
   res.json(paymentSummary)
+})
+
+app.get("/api/orders", (req, res) => {
+  const { expand } = req.query;
+  let productCostCents = 0;
+  let shippingCostCents = 0;
+  const productCart = cart.map(cartItem => {
+    const productData = products.find(product => product.id === cartItem.productId);
+    const deliveryOption = deliveryOptions.find(deliveryOption => deliveryOption.id === cartItem.deliveryOptionId);
+    const estimatedDeliveryTimeMs = getDeliveryDate(deliveryOption.deliveryDays)
+    productCostCents += calculateProductCostCents(cartItem, productData);
+    shippingCostCents += calculateShippingCostCents(deliveryOption)
+
+    return {
+      productId: cartItem.productId,
+      quantity: cartItem.quantity,
+      estimatedDeliveryTimeMs,
+      product: {
+        name: productData?.name,
+        image: productData?.image,
+        priceCents: productData?.priceCents,
+        keywords: productData?.keywords
+      }
+    }
+  })
+  const totalCostBeforeTaxCents = productCostCents + shippingCostCents;
+  const taxCents = totalCostBeforeTaxCents * 0.1;
+  const totalCostCents = totalCostBeforeTaxCents + taxCents;
+  const orders = [
+    {
+      id: crypto.randomUUID(),
+      orderTimeMs: Date.now(),
+      totalCostCents,
+      products: productCart
+    }
+  ]
+  res.json(orders)
 })
 
 app.listen(3000, () => {
