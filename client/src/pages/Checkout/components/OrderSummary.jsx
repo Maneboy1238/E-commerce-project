@@ -1,6 +1,6 @@
-import { convertCentsToDollarsInTwoDecimals } from "../../../utils/money"
 import { dayMonthDateFormat } from "../../../utils/date"
 import { DeliveryOptions } from "./DeliveryOption"
+import { CartItemDetail } from "./CartItemDetail"
 export function OrderSummary({ cart, deliveryOptions }) {
   return (
     <div className="order-summary">
@@ -15,28 +15,7 @@ export function OrderSummary({ cart, deliveryOptions }) {
           </div>
 
           <div className="cart-item-details-grid">
-            <img className="product-image"
-              src={cartItem.product.image} />
-
-            <div className="cart-item-details">
-              <div className="product-name">
-                {cartItem.product.name}
-              </div>
-              <div className="product-price">
-                {convertCentsToDollarsInTwoDecimals(cartItem.product.priceCents)}
-              </div>
-              <div className="product-quantity">
-                <span>
-                  Quantity: <span className="quantity-label">{cartItem.quantity}</span>
-                </span>
-                <span className="update-quantity-link link-primary">
-                  Update
-                </span>
-                <span className="delete-quantity-link link-primary">
-                  Delete
-                </span>
-              </div>
-            </div>
+            <CartItemDetail cartItem={cartItem} />
             <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} />
           </div>
         </div>
